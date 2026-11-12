@@ -6,7 +6,7 @@ question answering and summarisation pipeline, finds the configurations where no
 improved without hurting something else (the Pareto front) using Bayesian multi-objective
 optimisation, and recommends one for a client's priorities.
 
-- **Live demo:** _add Cloud Run URL_
+- **Interactive page:** run locally (see [Run it](#run-it)); a Dockerfile is included for deployment
 - Scoping: [docs/scoping.md](docs/scoping.md)
 - Decisions: [docs/decisions](docs/decisions)
 
