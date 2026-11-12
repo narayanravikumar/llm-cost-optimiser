@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM Cost Optimiser</title>
+<meta name="description" content="Finding the cost, quality and latency trade-off of an LLM pipeline with Bayesian multi-objective optimisation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<script src="/plotly.min.js"></script>
+<style>
+:root{
+  --paper:#edf0f3; --ink:#18222e; --soft:#5b6775; --rule:#c9d1da; --grid:#dde2e8;
+  --mark:#e0a100; --gain:#1f7a4d; --loss:#b4372f;
+  --haiku:#2b63d9; --sonnet:#7a52c7; --opus:#1f8a70;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131a23; --ink:#e3e8ee; --soft:#97a3b1; --rule:#2c3744; --grid:#212b36;
+    --mark:#f2b72a; --gain:#5fcf94; --loss:#f08a80;
+    --haiku:#6f9bff; --sonnet:#b394f2; --opus:#4fc6a6;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131a23; --ink:#e3e8ee; --soft:#97a3b1; --rule:#2c3744; --grid:#212b36;
+  --mark:#f2b72a; --gain:#5fcf94; --loss:#f08a80;
+  --haiku:#6f9bff; --sonnet:#b394f2; --opus:#4fc6a6;
+}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:Archivo,ui-sans-serif,system-ui,sans-serif;font-size:16px;line-height:1.55;
+  font-variant-numeric:tabular-nums}
+.page{max-width:1200px;margin:0 auto;padding:48px 16px 80px}
+h1{font-stretch:118%;font-weight:780;font-size:clamp(34px,6vw,68px);line-height:1;letter-spacing:-.02em;margin:0;max-width:15ch}
+.lede{max-width:62ch;margin:20px 0 0;font-size:18px;color:var(--soft)}
+.lede strong{color:var(--ink);font-weight:600}
+h2{font-stretch:108%;font-weight:700;font-size:20px;margin:0 0 4px}
+.sub{color:var(--soft);font-size:14px;margin:0 0 12px;max-width:60ch}
+.study{display:grid;grid-template-columns:260px 1fr;gap:0;margin-top:44px;border-top:2px solid var(--ink)}
+.rail{padding:22px 28px 22px 0;border-right:1px solid var(--rule)}
+.main{padding:22px 0 0 28px;min-width:0}
+@media (max-width:860px){.study{grid-template-columns:1fr}.rail{border-right:0;border-bottom:1px solid var(--rule);padding-right:0}.main{padding-left:0}}
+.field{margin:18px 0 0}
+.field:first-of-type{margin-top:10px}
+.field label{display:flex;justify-content:space-between;font-size:15px;font-weight:500}
+.field output{font-weight:700}
+.field small{display:block;color:var(--soft);font-size:13px;margin-top:2px}
+.rail h3{font-size:15px;font-weight:700;margin:28px 0 0}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;margin:4px 0 0}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--rule)}
+input[type=range]::-moz-range-track{height:2px;background:var(--rule)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--ink);margin-top:-6px;border:0}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--ink);border:0}
+input[type=range]:focus-visible{outline:2px solid var(--mark);outline-offset:4px}
+#c1{height:460px}
+.chart{height:320px}
+#rec{border-top:1px solid var(--rule);margin-top:8px;padding-top:18px}
+#rec .verdict{font-stretch:108%;font-size:clamp(20px,2.6vw,27px);font-weight:600;line-height:1.3;margin:0;max-width:44ch}
+#rec .verdict .setup{background:linear-gradient(transparent 62%, color-mix(in srgb,var(--mark) 45%,transparent) 62%)}
+#rec p{max-width:66ch;margin:12px 0 0}
+#rec .fine{color:var(--soft);font-size:14px}
+.gain{color:var(--gain);font-weight:600}.loss{color:var(--loss);font-weight:600}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:56px}
+@media (max-width:860px){.pair{grid-template-columns:1fr}}
+section.block{border-top:1px solid var(--rule);padding-top:18px}
+.wide{margin-top:56px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:left;font-weight:600;color:var(--soft);padding:8px 10px;border-bottom:2px solid var(--ink)}
+td{padding:9px 10px;border-bottom:1px solid var(--rule)}
+td.n,th.n{text-align:right}
+tr.pick td{background:color-mix(in srgb,var(--mark) 22%,transparent)}
+.swatch{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:baseline}
+.scroll{overflow-x:auto}
+.method{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:8px 48px}
+.method p{margin:8px 0;max-width:60ch}
+.method b{font-weight:650}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="page">
+<h1>“Cut our AI bill” is three numbers, not one</h1>
+<p class="lede">Cost, answer quality and speed move together, so every saving is a trade. I tested configurations of a
+question answering and summarisation pipeline and used Bayesian optimisation to map the trade-offs in 20 paid runs.
+<strong id="finding"></strong></p>
+
+<div class="study">
+  <aside class="rail" aria-label="Your requirements">
+    <h2>Your requirements</h2>
+    <div class="field"><label for="minq">Minimum quality <output id="oq"></output></label>
+      <input type="range" id="minq" min="50" max="95" step="1" value="80">
+      <small>Requests answered completely, with nothing made up.</small></div>
+    <div class="field"><label for="maxl">Slowest acceptable reply <output id="ol"></output></label>
+      <input type="range" id="maxl" min="2" max="8" step="0.1" value="8">
+      <small>95th percentile response time.</small></div>
+    <h3>What matters most</h3>
+    <div class="field"><label for="wq">Quality <output id="owq"></output></label><input type="range" id="wq" min="0" max="10" value="4"></div>
+    <div class="field"><label for="wc">Cost <output id="owc"></output></label><input type="range" id="wc" min="0" max="10" value="4"></div>
+    <div class="field"><label for="wl">Speed <output id="owl"></output></label><input type="range" id="wl" min="0" max="10" value="2"></div>
+  </aside>
+  <div class="main">
+    <h2>Quality against cost</h2>
+    <p class="sub">Each dot is one configuration. Filled dots sit on the trade-off front: nothing else is both cheaper and better.
+    The star is the current setup; the yellow ring is the recommendation for your requirements.</p>
+    <div id="c1"></div>
+    <div id="rec" aria-live="polite"></div>
+  </div>
+</div>
+
+<div class="pair">
+  <section class="block"><h2>Quality against speed</h2><p class="sub">Same configurations, plotted against the slowest typical reply.</p><div id="c2" class="chart"></div></section>
+  <section class="block"><h2>Bayesian search against random search</h2>
+    <p class="sub">How much of the trade-off space each method had mapped after each paid run. Both started from the same 6 configurations.</p>
+    <div id="c3" class="chart"></div></section>
+</div>
+
+<section class="block wide"><h2>The trade-off front</h2><p class="sub">Every configuration where you cannot save money without losing quality or speed.</p>
+  <div class="scroll"><table id="front"></table></div></section>
+
+<section class="block wide"><h2>How this was measured</h2>
+<div class="method">
+  <p><b>Quality</b> is the share of 60 requests (30 questions, 30 news summaries) that got a complete answer which a
+  hallucination judge found faithful to the source. The judge is Claude Haiku 5.5, checked against RAGTruth human labels (Cohen’s kappa 0.63).</p>
+  <p><b>Cost</b> is generation cost per 1,000 requests at list prices. <b>Speed</b> is the 95th percentile response time.
+  Five settings were varied: model, prompt, how much reference material is kept, answer length limit and reasoning effort, giving 108 configurations.</p>
+  <p><b>Search.</b> One Gaussian process per objective and expected hypervolume improvement (BoTorch) chose each next run from all untested configurations.</p>
+  <p><b>What went wrong first.</b> My first result looked too good: answers cut off at the length limit, and quotes copied from the source,
+  counted as faithful. Hidden reasoning tokens were using up the answer budget. Quality now requires a complete answer.</p>
+  <p><b>Limits.</b> With 60 requests, quality figures carry about ±8 points of uncertainty. The shared starting set never tried a
+  512 token limit or low effort, which slowed the Bayesian search early on. The human labels date from 2023 era models.</p>
+</div></section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const MODEL = {haiku:"Haiku", sonnet:"Sonnet", opus:"Opus"};
+const PROMPT = {plain:"plain prompt", grounded:"grounded prompt", extract:"extract-then-answer prompt"};
+const fmt$ = v => "$" + v.toFixed(2);
+const pct = v => Math.round(100 * v) + "%";
+let DATA, BASE, CHOICE = null;
+
+function short(r){ const c = r.config;
+  return `${MODEL[c.model]}, ${PROMPT[c.prompt]}, ${c.context === "full" ? "100" : c.context}% of material, ${c.max_tokens} tokens, ${c.effort} effort`; }
+
+function layout(xTitle, xLog){
+  return {margin:{l:54,r:8,t:34,b:48}, paper_bgcolor:"rgba(0,0,0,0)", plot_bgcolor:"rgba(0,0,0,0)",
+    font:{family:"Archivo, system-ui, sans-serif", color:css("--soft"), size:13}, showlegend:true,
+    legend:{orientation:"h", x:0, y:1.02, yanchor:"bottom", font:{color:css("--ink")}},
+    xaxis:{title:{text:xTitle}, type:xLog?"log":"linear", gridcolor:css("--grid"), linecolor:css("--rule"), zeroline:false,
+           ...(xLog ? {tickvals:[0.1,0.2,0.5,1,2,5,10], ticktext:["$0.10","$0.20","$0.50","$1","$2","$5","$10"]} : {})},
+    yaxis:{title:{text:"Quality"}, tickformat:".0%", gridcolor:css("--grid"), linecolor:css("--rule"), zeroline:false, rangemode:"tozero"},
+    hovermode:"closest", hoverlabel:{font:{family:"Archivo, system-ui, sans-serif"}}};
+}
+
+function scatter(el, xKey, xTitle, xLog){
+  const traces = [];
+  for (const m of ["haiku","sonnet","opus"]){
+    const rs = DATA.rows.filter(r => r.config.model === m);
+    traces.push({type:"scatter", mode:"markers", name:MODEL[m], legendgroup:m, x:[null], y:[null],
+      marker:{color:css("--"+m), size:9}, hoverinfo:"skip"});
+    traces.push({type:"scatter", mode:"markers", name:MODEL[m], legendgroup:m, showlegend:false,
+      x:rs.map(r=>r[xKey]), y:rs.map(r=>r.quality), text:rs.map(r=>short(r) + (r.feasible ? "" : "<br>not usable")),
+      hovertemplate:"%{text}<br>quality %{y:.0%}<br>" + (xKey==="cost_per_1k" ? "$%{x:.2f} per 1,000 requests" : "%{x:.1f}s") + "<extra></extra>",
+      marker:{color:rs.map(r=>r.on_front?css("--"+m):"rgba(0,0,0,0)"), size:rs.map(r=>r.on_front?11:8),
+              line:{color:css("--"+m), width:1.5}, opacity:rs.map(r=>r.feasible?1:.35)}});
+  }
+  const f = DATA.rows.filter(r=>r.on_front).sort((a,b)=>a[xKey]-b[xKey]);
+  traces.push({type:"scatter", mode:"lines", name:"Trade-off front", x:f.map(r=>r[xKey]), y:f.map(r=>r.quality),
+    line:{color:css("--ink"), width:1.2, shape:"hv"}, opacity:.5, hoverinfo:"skip"});
+  traces.push({type:"scatter", mode:"markers", name:"Current setup", x:[BASE[xKey]], y:[BASE.quality],
+    marker:{symbol:"star", size:17, color:css("--ink")}, hovertemplate:"Current setup<extra></extra>"});
+  if (CHOICE) traces.push({type:"scatter", mode:"markers", name:"Recommended", x:[CHOICE[xKey]], y:[CHOICE.quality],
+    marker:{symbol:"circle-open", size:28, color:css("--mark"), line:{width:4}}, hovertemplate:"Recommended<extra></extra>"});
+  Plotly.react(el, traces, layout(xTitle, xLog), {displayModeBar:false, responsive:true});
+}
+
+function hvChart(){
+  const t = (pts, name, color, dash) => ({type:"scatter", mode:"lines+markers", name, x:pts.map(p=>p.step), y:pts.map(p=>p.hv),
+    line:{dash, width:2, color, shape:"hv"}, marker:{size:5, color}});
+  const L = layout("Paid runs", false);
+  L.yaxis = {title:{text:"Trade-off space mapped"}, gridcolor:css("--grid"), linecolor:css("--rule"), zeroline:false};
+  L.shapes = [{type:"rect", x0:0.5, x1:6.5, yref:"paper", y0:0, y1:1, fillcolor:css("--grid"), opacity:.6, line:{width:0}, layer:"below"}];
+  L.annotations = [{x:3.5, yref:"paper", y:.96, text:"shared start", showarrow:false, font:{size:12, color:css("--soft")}}];
+  Plotly.react("c3", [t(DATA.search.random,"Random search",css("--soft"),"dot"),
+                      t(DATA.search.qehvi,"Bayesian search",css("--ink"),"solid")], L, {displayModeBar:false, responsive:true});
+}
+
+function frontTable(){
+  const f = DATA.rows.filter(r=>r.on_front).sort((a,b)=>a.cost_per_1k-b.cost_per_1k);
+  $("front").innerHTML = "<tr><th>Configuration</th><th class=n>Quality</th><th class=n>Cost per 1,000</th><th class=n>Slowest reply</th></tr>" +
+    f.map(r => `<tr class="${CHOICE && r.config_id===CHOICE.config_id ? "pick":""}">
+      <td><span class="swatch" style="background:${css("--"+r.config.model)}"></span>${short(r)}${r.config_id===DATA.baseline_id?" (current)":""}</td>
+      <td class=n>${pct(r.quality)}</td><td class=n>${fmt$(r.cost_per_1k)}</td><td class=n>${r.latency_p95.toFixed(1)}s</td></tr>`).join("");
+}
+
+function finding(){
+  const best = DATA.search.qehvi.at(-1)?.hv || 0, rnd = DATA.search.random.at(-1)?.hv || 0;
+  const ok = DATA.rows.filter(r=>r.feasible && r.quality >= BASE.quality - 0.02).sort((a,b)=>a.cost_per_1k-b.cost_per_1k)[0];
+  const cheap = DATA.rows.filter(r=>r.feasible && r.on_front && r.quality >= 0.65).sort((a,b)=>a.cost_per_1k-b.cost_per_1k)[0];
+  const parts = [];
+  if (ok && ok.config_id !== DATA.baseline_id)
+    parts.push(`The same quality costs ${Math.round(100*(1-ok.cost_per_1k/BASE.cost_per_1k))}% less`);
+  if (cheap) parts.push(`${Math.round(100*(1-cheap.cost_per_1k/BASE.cost_per_1k))}% less if ${pct(cheap.quality)} quality is enough`);
+  let s = parts.join(", or ") + ".";
+  if (rnd) s += ` Bayesian search mapped ${Math.round(100*(best/rnd-1))}% more of the trade-off space than random search.`;
+  $("finding").textContent = " " + s;
+}
+
+const signed = (v, unit, digits=0) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(digits) + unit;
+
+function renderRec(res){
+  if (res.status !== "ok"){
+    CHOICE = null;
+    $("rec").innerHTML = `<p class="verdict">Nothing tested meets these requirements.</p>
+      <p>Lower the minimum quality or allow slower replies to see options.</p>`;
+    return;
+  }
+  const f = res.facts, r = f.recommended, b = f.current_setup, d = f.change_vs_current, moe = f.quality_margin_of_error_points;
+  CHOICE = DATA.rows.find(x=>x.config_id===res.choice_id);
+  if (res.choice_id === DATA.baseline_id){
+    $("rec").innerHTML = `<p class="verdict">Keep the current setup. Nothing tested fits these priorities better.</p>`;
+    return;
+  }
+  const cost = d.cost_change_pct === 0 ? "costs about the same" :
+    `costs <span class="${d.cost_change_pct<0?"gain":"loss"}">${Math.abs(d.cost_change_pct)}% ${d.cost_change_pct<0?"less":"more"}</span>`;
+  const q = Math.abs(d.quality_change_points) < moe
+    ? `keeps quality about the same (${b.quality_pct}% to ${r.quality_pct}%, inside the ±${moe} point margin)`
+    : `<span class="${d.quality_change_points>0?"gain":"loss"}">${d.quality_change_points>0?"raises":"lowers"} quality by ${Math.abs(d.quality_change_points)} points</span> (${b.quality_pct}% to ${r.quality_pct}%)`;
+  const spd = d.p95_latency_change_seconds === 0 ? "the same speed" :
+    `replies <span class="${d.p95_latency_change_seconds<0?"gain":"loss"}">${Math.abs(d.p95_latency_change_seconds).toFixed(1)}s ${d.p95_latency_change_seconds<0?"faster":"slower"}</span>`;
+  let html = `<p class="verdict">Switch to <span class="setup">${short(CHOICE)}</span>.</p>
+    <p>It ${cost} (${fmt$(b.cost_per_1000_requests_usd)} to ${fmt$(r.cost_per_1000_requests_usd)} per 1,000 requests), ${q}, at ${spd}.
+    ${r.complete_answers_pct}% of answers are complete, against ${b.complete_answers_pct}% today.</p>`;
+  const alt = res.runner_up_id && DATA.rows.find(x=>x.config_id===res.runner_up_id);
+  if (alt) html += `<p>Next best: ${short(alt)}, at ${pct(alt.quality)} quality and ${fmt$(alt.cost_per_1k)} per 1,000 requests.</p>`;
+  html += `<p class="fine">Measured on ${f.evaluated_on_requests} requests. ${f.options_meeting_requirements} configurations meet your requirements.</p>`;
+  $("rec").innerHTML = html;
+}
+
+let timer;
+function update(){
+  $("oq").textContent = $("minq").value + "%";
+  $("ol").textContent = $("maxl").value >= 8 ? "any" : $("maxl").value + "s";
+  $("owq").textContent = $("wq").value; $("owc").textContent = $("wc").value; $("owl").textContent = $("wl").value;
+  clearTimeout(timer);
+  timer = setTimeout(async () => {
+    const q = new URLSearchParams({min_quality: $("minq").value/100, w_quality: $("wq").value,
+      w_cost: $("wc").value, w_latency: $("wl").value});
+    if ($("maxl").value < 8) q.set("max_p95", $("maxl").value);
+    try { renderRec(await (await fetch("/api/recommend?" + q)).json()); }
+    catch { $("rec").innerHTML = `<p class="verdict">The recommendation service is not responding.</p><p>Reload the page to try again.</p>`; }
+    draw();
+  }, 120);
+}
+
+function draw(){ scatter("c1","cost_per_1k","Cost per 1,000 requests",true);
+  scatter("c2","latency_p95","Slowest typical reply (seconds)",false); frontTable(); }
+
+(async () => {
+  DATA = await (await fetch("/results.json")).json();
+  BASE = DATA.rows.find(r => r.config_id === DATA.baseline_id);
+  finding(); hvChart();
+  for (const id of ["minq","maxl","wq","wc","wl"]) $(id).addEventListener("input", update);
+  update();
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { draw(); hvChart(); });
+})();
+</script>
+</body>
+</html>

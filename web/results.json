@@ -1,0 +1,1019 @@
+{
+ "baseline_id": "sonnet|plain|full|512|high",
+ "normalisation": {
+  "quality_floor": 0.5,
+  "cost_range": [
+   0.1,
+   12.0
+  ],
+  "latency_ceiling": 15.0,
+  "refusal_slack": 0.1
+ },
+ "rows": [
+  {
+   "config": {
+    "model": "sonnet",
+    "prompt": "plain",
+    "context": "full",
+    "max_tokens": 512,
+    "effort": "high"
+   },
+   "config_id": "sonnet|plain|full|512|high",
+   "n": 60,
+   "quality": 0.8166666666666667,
+   "complete_rate": 0.9,
+   "faithfulness": 0.9074074074074074,
+   "truncated_rate": 0.1,
+   "cost_per_1k": 4.736799999999999,
+   "latency_p50": 2.513152062500012,
+   "latency_p95": 4.225124499993399,
+   "refusal_rate": 0.03333333333333333,
+   "avg_output_tokens": 291.43333333333334,
+   "label": "Sonnet (mid model), plain prompt, all reference material, 512 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": true
+  },
+  {
+   "config": {
+    "model": "sonnet",
+    "prompt": "grounded",
+    "context": "full",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "sonnet|grounded|full|256|high",
+   "n": 60,
+   "quality": 0.45,
+   "complete_rate": 0.5,
+   "faithfulness": 0.9,
+   "truncated_rate": 0.5,
+   "cost_per_1k": 4.1643,
+   "latency_p50": 2.4128298334835563,
+   "latency_p95": 2.904551082989201,
+   "refusal_rate": 0.03333333333333333,
+   "avg_output_tokens": 223.98333333333332,
+   "label": "Sonnet (mid model), grounded prompt (answer only from the material), all reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "opus",
+    "prompt": "extract",
+    "context": "full",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "opus|extract|full|256|high",
+   "n": 60,
+   "quality": 0.0,
+   "complete_rate": 0.0,
+   "faithfulness": 1.0,
+   "truncated_rate": 1.0,
+   "cost_per_1k": 9.176933333333332,
+   "latency_p50": 2.7716258959990228,
+   "latency_p95": 3.2235557090025395,
+   "refusal_rate": 0.0,
+   "avg_output_tokens": 256,
+   "label": "Opus (largest model), extract-then-answer prompt, all reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "sonnet",
+    "prompt": "grounded",
+    "context": "60",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "sonnet|grounded|60|256|high",
+   "n": 60,
+   "quality": 0.6333333333333333,
+   "complete_rate": 0.6333333333333333,
+   "faithfulness": 1.0,
+   "truncated_rate": 0.36666666666666664,
+   "cost_per_1k": 3.314233333333334,
+   "latency_p50": 2.2231155000044964,
+   "latency_p95": 2.890987832972314,
+   "refusal_rate": 0.06666666666666667,
+   "avg_output_tokens": 206.81666666666666,
+   "label": "Sonnet (mid model), grounded prompt (answer only from the material), 60% of the reference material, 256 token answer limit, high reasoning effort",
+   "on_front": true,
+   "feasible": true
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "plain",
+    "context": "60",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "haiku|plain|60|256|high",
+   "n": 60,
+   "quality": 0.25,
+   "complete_rate": 0.26666666666666666,
+   "faithfulness": 0.9375,
+   "truncated_rate": 0.7333333333333333,
+   "cost_per_1k": 0.1714866666666667,
+   "latency_p50": 1.565089354495285,
+   "latency_p95": 1.8485039160004817,
+   "refusal_rate": 0.08333333333333333,
+   "avg_output_tokens": 228.56666666666666,
+   "label": "Haiku (smallest model), plain prompt, 60% of the reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "extract",
+    "context": "35",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "haiku|extract|35|256|high",
+   "n": 60,
+   "quality": 0.0,
+   "complete_rate": 0.0,
+   "faithfulness": 1.0,
+   "truncated_rate": 1.0,
+   "cost_per_1k": 0.17406999999999997,
+   "latency_p50": 1.4940178130054846,
+   "latency_p95": 1.7453290409757756,
+   "refusal_rate": 0.0,
+   "avg_output_tokens": 256,
+   "label": "Haiku (smallest model), extract-then-answer prompt, 35% of the reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "sonnet",
+    "prompt": "extract",
+    "context": "60",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "sonnet|extract|60|256|high",
+   "n": 60,
+   "quality": 0.06666666666666667,
+   "complete_rate": 0.06666666666666667,
+   "faithfulness": 1.0,
+   "truncated_rate": 0.9333333333333333,
+   "cost_per_1k": 3.873066666666667,
+   "latency_p50": 2.234827062493423,
+   "latency_p95": 2.5235620419844054,
+   "refusal_rate": 0.016666666666666666,
+   "avg_output_tokens": 252.3,
+   "label": "Sonnet (mid model), extract-then-answer prompt, 60% of the reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "grounded",
+    "context": "60",
+    "max_tokens": 512,
+    "effort": "low"
+   },
+   "config_id": "haiku|grounded|60|512|low",
+   "n": 60,
+   "quality": 0.5666666666666667,
+   "complete_rate": 0.6333333333333333,
+   "faithfulness": 0.8947368421052632,
+   "truncated_rate": 0.36666666666666664,
+   "cost_per_1k": 0.21760333333333337,
+   "latency_p50": 1.4816652079898631,
+   "latency_p95": 2.8812961660150904,
+   "refusal_rate": 0.1,
+   "avg_output_tokens": 310.6,
+   "label": "Haiku (smallest model), grounded prompt (answer only from the material), 60% of the reference material, 512 token answer limit, low reasoning effort",
+   "on_front": true,
+   "feasible": true
+  },
+  {
+   "config": {
+    "model": "opus",
+    "prompt": "plain",
+    "context": "60",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "opus|plain|60|256|high",
+   "n": 60,
+   "quality": 0.26666666666666666,
+   "complete_rate": 0.2833333333333333,
+   "faithfulness": 0.9411764705882353,
+   "truncated_rate": 0.7166666666666667,
+   "cost_per_1k": 7.050133333333333,
+   "latency_p50": 2.854835728998296,
+   "latency_p95": 3.3830213750188705,
+   "refusal_rate": 0.05,
+   "avg_output_tokens": 238.1,
+   "label": "Opus (largest model), plain prompt, 60% of the reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "opus",
+    "prompt": "extract",
+    "context": "60",
+    "max_tokens": 512,
+    "effort": "high"
+   },
+   "config_id": "opus|extract|60|512|high",
+   "n": 60,
+   "quality": 0.3,
+   "complete_rate": 0.3,
+   "faithfulness": 1.0,
+   "truncated_rate": 0.7,
+   "cost_per_1k": 12.308799999999998,
+   "latency_p50": 4.674943687510677,
+   "latency_p95": 6.062994333013194,
+   "refusal_rate": 0.05,
+   "avg_output_tokens": 480.43333333333334,
+   "label": "Opus (largest model), extract-then-answer prompt, 60% of the reference material, 512 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "plain",
+    "context": "35",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "haiku|plain|35|256|high",
+   "n": 60,
+   "quality": 0.2833333333333333,
+   "complete_rate": 0.2833333333333333,
+   "faithfulness": 1.0,
+   "truncated_rate": 0.7166666666666667,
+   "cost_per_1k": 0.14846166666666666,
+   "latency_p50": 1.5642541455017636,
+   "latency_p95": 1.8274864169943612,
+   "refusal_rate": 0.05,
+   "avg_output_tokens": 225.38333333333333,
+   "label": "Haiku (smallest model), plain prompt, 35% of the reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "extract",
+    "context": "35",
+    "max_tokens": 512,
+    "effort": "low"
+   },
+   "config_id": "haiku|extract|35|512|low",
+   "n": 60,
+   "quality": 0.4,
+   "complete_rate": 0.48333333333333334,
+   "faithfulness": 0.8275862068965517,
+   "truncated_rate": 0.5166666666666667,
+   "cost_per_1k": 0.24052833333333337,
+   "latency_p50": 2.2316237914928934,
+   "latency_p95": 2.597128291003173,
+   "refusal_rate": 0.15,
+   "avg_output_tokens": 388.9166666666667,
+   "label": "Haiku (smallest model), extract-then-answer prompt, 35% of the reference material, 512 token answer limit, low reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "grounded",
+    "context": "60",
+    "max_tokens": 256,
+    "effort": "low"
+   },
+   "config_id": "haiku|grounded|60|256|low",
+   "n": 60,
+   "quality": 0.5166666666666667,
+   "complete_rate": 0.5333333333333333,
+   "faithfulness": 0.96875,
+   "truncated_rate": 0.4666666666666667,
+   "cost_per_1k": 0.161195,
+   "latency_p50": 1.4292184375080978,
+   "latency_p95": 1.8336392909986898,
+   "refusal_rate": 0.1,
+   "avg_output_tokens": 197.78333333333333,
+   "label": "Haiku (smallest model), grounded prompt (answer only from the material), 60% of the reference material, 256 token answer limit, low reasoning effort",
+   "on_front": true,
+   "feasible": true
+  },
+  {
+   "config": {
+    "model": "sonnet",
+    "prompt": "extract",
+    "context": "35",
+    "max_tokens": 256,
+    "effort": "low"
+   },
+   "config_id": "sonnet|extract|35|256|low",
+   "n": 60,
+   "quality": 0.2833333333333333,
+   "complete_rate": 0.2833333333333333,
+   "faithfulness": 1.0,
+   "truncated_rate": 0.7166666666666667,
+   "cost_per_1k": 3.2222333333333335,
+   "latency_p50": 2.1089765209908364,
+   "latency_p95": 2.584378083003685,
+   "refusal_rate": 0.06666666666666667,
+   "avg_output_tokens": 230.08333333333334,
+   "label": "Sonnet (mid model), extract-then-answer prompt, 35% of the reference material, 256 token answer limit, low reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "sonnet",
+    "prompt": "extract",
+    "context": "full",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "sonnet|extract|full|256|high",
+   "n": 60,
+   "quality": 0.06666666666666667,
+   "complete_rate": 0.06666666666666667,
+   "faithfulness": 1.0,
+   "truncated_rate": 0.9333333333333333,
+   "cost_per_1k": 4.506966666666668,
+   "latency_p50": 2.258112812502077,
+   "latency_p95": 2.5068313330120873,
+   "refusal_rate": 0.03333333333333333,
+   "avg_output_tokens": 247.85,
+   "label": "Sonnet (mid model), extract-then-answer prompt, all reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "sonnet",
+    "prompt": "extract",
+    "context": "60",
+    "max_tokens": 256,
+    "effort": "low"
+   },
+   "config_id": "sonnet|extract|60|256|low",
+   "n": 60,
+   "quality": 0.16666666666666666,
+   "complete_rate": 0.16666666666666666,
+   "faithfulness": 1.0,
+   "truncated_rate": 0.8333333333333334,
+   "cost_per_1k": 3.8262333333333336,
+   "latency_p50": 2.2308018539915793,
+   "latency_p95": 2.503169874980813,
+   "refusal_rate": 0.06666666666666667,
+   "avg_output_tokens": 247.61666666666667,
+   "label": "Sonnet (mid model), extract-then-answer prompt, 60% of the reference material, 256 token answer limit, low reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "opus",
+    "prompt": "grounded",
+    "context": "60",
+    "max_tokens": 256,
+    "effort": "low"
+   },
+   "config_id": "opus|grounded|60|256|low",
+   "n": 60,
+   "quality": 0.35,
+   "complete_rate": 0.36666666666666664,
+   "faithfulness": 0.9545454545454546,
+   "truncated_rate": 0.6333333333333333,
+   "cost_per_1k": 7.005133333333332,
+   "latency_p50": 2.907836374506587,
+   "latency_p95": 3.546999542013509,
+   "refusal_rate": 0.06666666666666667,
+   "avg_output_tokens": 225.65,
+   "label": "Opus (largest model), grounded prompt (answer only from the material), 60% of the reference material, 256 token answer limit, low reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "sonnet",
+    "prompt": "grounded",
+    "context": "full",
+    "max_tokens": 512,
+    "effort": "high"
+   },
+   "config_id": "sonnet|grounded|full|512|high",
+   "n": 60,
+   "quality": 0.8833333333333333,
+   "complete_rate": 0.95,
+   "faithfulness": 0.9298245614035088,
+   "truncated_rate": 0.05,
+   "cost_per_1k": 4.746299999999999,
+   "latency_p50": 2.553564458488836,
+   "latency_p95": 4.2201089579903055,
+   "refusal_rate": 0.03333333333333333,
+   "avg_output_tokens": 282.18333333333334,
+   "label": "Sonnet (mid model), grounded prompt (answer only from the material), all reference material, 512 token answer limit, high reasoning effort",
+   "on_front": true,
+   "feasible": true
+  },
+  {
+   "config": {
+    "model": "opus",
+    "prompt": "extract",
+    "context": "35",
+    "max_tokens": 512,
+    "effort": "low"
+   },
+   "config_id": "opus|extract|35|512|low",
+   "n": 60,
+   "quality": 0.5333333333333333,
+   "complete_rate": 0.6,
+   "faithfulness": 0.8888888888888888,
+   "truncated_rate": 0.4,
+   "cost_per_1k": 9.673466666666668,
+   "latency_p50": 4.045671542000491,
+   "latency_p95": 5.001247417007107,
+   "refusal_rate": 0.1,
+   "avg_output_tokens": 391.53333333333336,
+   "label": "Opus (largest model), extract-then-answer prompt, 35% of the reference material, 512 token answer limit, low reasoning effort",
+   "on_front": false,
+   "feasible": true
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "extract",
+    "context": "full",
+    "max_tokens": 512,
+    "effort": "high"
+   },
+   "config_id": "haiku|extract|full|512|high",
+   "n": 60,
+   "quality": 0.08333333333333333,
+   "complete_rate": 0.08333333333333333,
+   "faithfulness": 1.0,
+   "truncated_rate": 0.9166666666666666,
+   "cost_per_1k": 0.35100666666666663,
+   "latency_p50": 2.381231603998458,
+   "latency_p95": 2.817772167007206,
+   "refusal_rate": 0.06666666666666667,
+   "avg_output_tokens": 499.1666666666667,
+   "label": "Haiku (smallest model), extract-then-answer prompt, all reference material, 512 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "grounded",
+    "context": "full",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "haiku|grounded|full|256|high",
+   "n": 60,
+   "quality": 0.15,
+   "complete_rate": 0.15,
+   "faithfulness": 1.0,
+   "truncated_rate": 0.85,
+   "cost_per_1k": 0.21941500000000003,
+   "latency_p50": 1.5648683955078013,
+   "latency_p95": 1.7785245420236606,
+   "refusal_rate": 0.03333333333333333,
+   "avg_output_tokens": 246.38333333333333,
+   "label": "Haiku (smallest model), grounded prompt (answer only from the material), all reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "grounded",
+    "context": "60",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "haiku|grounded|60|256|high",
+   "n": 60,
+   "quality": 0.23333333333333334,
+   "complete_rate": 0.23333333333333334,
+   "faithfulness": 1.0,
+   "truncated_rate": 0.7666666666666667,
+   "cost_per_1k": 0.1811033333333333,
+   "latency_p50": 1.5570605625107419,
+   "latency_p95": 1.828879374981625,
+   "refusal_rate": 0.06666666666666667,
+   "avg_output_tokens": 237.6,
+   "label": "Haiku (smallest model), grounded prompt (answer only from the material), 60% of the reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "extract",
+    "context": "full",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "haiku|extract|full|256|high",
+   "n": 60,
+   "quality": 0.0,
+   "complete_rate": 0.0,
+   "faithfulness": 1.0,
+   "truncated_rate": 1.0,
+   "cost_per_1k": 0.22942333333333337,
+   "latency_p50": 1.5375970210152445,
+   "latency_p95": 1.7000507500197273,
+   "refusal_rate": 0.0,
+   "avg_output_tokens": 256,
+   "label": "Haiku (smallest model), extract-then-answer prompt, all reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "plain",
+    "context": "full",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "haiku|plain|full|256|high",
+   "n": 60,
+   "quality": 0.13333333333333333,
+   "complete_rate": 0.13333333333333333,
+   "faithfulness": 1.0,
+   "truncated_rate": 0.8666666666666667,
+   "cost_per_1k": 0.2135566666666667,
+   "latency_p50": 1.5848079584975494,
+   "latency_p95": 1.8691535420075525,
+   "refusal_rate": 0.05,
+   "avg_output_tokens": 244.86666666666667,
+   "label": "Haiku (smallest model), plain prompt, all reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "grounded",
+    "context": "35",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "haiku|grounded|35|256|high",
+   "n": 60,
+   "quality": 0.2833333333333333,
+   "complete_rate": 0.3333333333333333,
+   "faithfulness": 0.85,
+   "truncated_rate": 0.6666666666666666,
+   "cost_per_1k": 0.15561166666666668,
+   "latency_p50": 1.5553393544978462,
+   "latency_p95": 1.8542537500034086,
+   "refusal_rate": 0.08333333333333333,
+   "avg_output_tokens": 229.48333333333332,
+   "label": "Haiku (smallest model), grounded prompt (answer only from the material), 35% of the reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "extract",
+    "context": "60",
+    "max_tokens": 256,
+    "effort": "high"
+   },
+   "config_id": "haiku|extract|60|256|high",
+   "n": 60,
+   "quality": 0.0,
+   "complete_rate": 0.0,
+   "faithfulness": 1.0,
+   "truncated_rate": 1.0,
+   "cost_per_1k": 0.19550333333333333,
+   "latency_p50": 1.541305791499326,
+   "latency_p95": 1.7817637500120327,
+   "refusal_rate": 0.0,
+   "avg_output_tokens": 256,
+   "label": "Haiku (smallest model), extract-then-answer prompt, 60% of the reference material, 256 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "sonnet",
+    "prompt": "grounded",
+    "context": "60",
+    "max_tokens": 512,
+    "effort": "high"
+   },
+   "config_id": "sonnet|grounded|60|512|high",
+   "n": 60,
+   "quality": 0.85,
+   "complete_rate": 0.9,
+   "faithfulness": 0.9444444444444444,
+   "truncated_rate": 0.1,
+   "cost_per_1k": 3.9647333333333337,
+   "latency_p50": 2.4041302085097414,
+   "latency_p95": 4.156369416974485,
+   "refusal_rate": 0.08333333333333333,
+   "avg_output_tokens": 271.8666666666667,
+   "label": "Sonnet (mid model), grounded prompt (answer only from the material), 60% of the reference material, 512 token answer limit, high reasoning effort",
+   "on_front": true,
+   "feasible": true
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "plain",
+    "context": "35",
+    "max_tokens": 512,
+    "effort": "high"
+   },
+   "config_id": "haiku|plain|35|512|high",
+   "n": 60,
+   "quality": 0.5,
+   "complete_rate": 0.5333333333333333,
+   "faithfulness": 0.9375,
+   "truncated_rate": 0.4666666666666667,
+   "cost_per_1k": 0.21572000000000002,
+   "latency_p50": 2.1103272500040475,
+   "latency_p95": 2.806459666986484,
+   "refusal_rate": 0.1,
+   "avg_output_tokens": 359.9,
+   "label": "Haiku (smallest model), plain prompt, 35% of the reference material, 512 token answer limit, high reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "sonnet",
+    "prompt": "grounded",
+    "context": "35",
+    "max_tokens": 512,
+    "effort": "low"
+   },
+   "config_id": "sonnet|grounded|35|512|low",
+   "n": 60,
+   "quality": 0.7,
+   "complete_rate": 0.9833333333333333,
+   "faithfulness": 0.711864406779661,
+   "truncated_rate": 0.016666666666666666,
+   "cost_per_1k": 2.891566666666667,
+   "latency_p50": 2.124199646001216,
+   "latency_p95": 4.0180877079837956,
+   "refusal_rate": 0.08333333333333333,
+   "avg_output_tokens": 207.41666666666666,
+   "label": "Sonnet (mid model), grounded prompt (answer only from the material), 35% of the reference material, 512 token answer limit, low reasoning effort",
+   "on_front": true,
+   "feasible": true
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "plain",
+    "context": "35",
+    "max_tokens": 256,
+    "effort": "low"
+   },
+   "config_id": "haiku|plain|35|256|low",
+   "n": 60,
+   "quality": 0.48333333333333334,
+   "complete_rate": 0.5166666666666667,
+   "faithfulness": 0.935483870967742,
+   "truncated_rate": 0.48333333333333334,
+   "cost_per_1k": 0.12337833333333334,
+   "latency_p50": 1.6811165419931058,
+   "latency_p95": 2.549812875018688,
+   "refusal_rate": 0.15,
+   "avg_output_tokens": 175.21666666666667,
+   "label": "Haiku (smallest model), plain prompt, 35% of the reference material, 256 token answer limit, low reasoning effort",
+   "on_front": false,
+   "feasible": false
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "grounded",
+    "context": "full",
+    "max_tokens": 512,
+    "effort": "low"
+   },
+   "config_id": "haiku|grounded|full|512|low",
+   "n": 60,
+   "quality": 0.6166666666666667,
+   "complete_rate": 0.65,
+   "faithfulness": 0.9487179487179487,
+   "truncated_rate": 0.35,
+   "cost_per_1k": 0.26469833333333337,
+   "latency_p50": 2.280484791001072,
+   "latency_p95": 3.6313790410058573,
+   "refusal_rate": 0.05,
+   "avg_output_tokens": 336.95,
+   "label": "Haiku (smallest model), grounded prompt (answer only from the material), all reference material, 512 token answer limit, low reasoning effort",
+   "on_front": true,
+   "feasible": true
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "grounded",
+    "context": "35",
+    "max_tokens": 512,
+    "effort": "low"
+   },
+   "config_id": "haiku|grounded|35|512|low",
+   "n": 60,
+   "quality": 0.5333333333333333,
+   "complete_rate": 0.6833333333333333,
+   "faithfulness": 0.7804878048780488,
+   "truncated_rate": 0.31666666666666665,
+   "cost_per_1k": 0.17757000000000003,
+   "latency_p50": 2.0572901659907075,
+   "latency_p95": 3.7816402919997927,
+   "refusal_rate": 0.11666666666666667,
+   "avg_output_tokens": 273.4,
+   "label": "Haiku (smallest model), grounded prompt (answer only from the material), 35% of the reference material, 512 token answer limit, low reasoning effort",
+   "on_front": true,
+   "feasible": true
+  },
+  {
+   "config": {
+    "model": "haiku",
+    "prompt": "plain",
+    "context": "full",
+    "max_tokens": 512,
+    "effort": "low"
+   },
+   "config_id": "haiku|plain|full|512|low",
+   "n": 60,
+   "quality": 0.6833333333333333,
+   "complete_rate": 0.7333333333333333,
+   "faithfulness": 0.9318181818181819,
+   "truncated_rate": 0.26666666666666666,
+   "cost_per_1k": 0.23982333333333333,
+   "latency_p50": 2.2136219994863495,
+   "latency_p95": 3.667760000011185,
+   "refusal_rate": 0.08333333333333333,
+   "avg_output_tokens": 297.4,
+   "label": "Haiku (smallest model), plain prompt, all reference material, 512 token answer limit, low reasoning effort",
+   "on_front": true,
+   "feasible": true
+  }
+ ],
+ "search": {
+  "random": [
+   {
+    "step": 1,
+    "config_id": "sonnet|grounded|full|256|high",
+    "hv": 0.0
+   },
+   {
+    "step": 2,
+    "config_id": "opus|extract|full|256|high",
+    "hv": 0.0
+   },
+   {
+    "step": 3,
+    "config_id": "sonnet|grounded|60|256|high",
+    "hv": 0.05785605414666446
+   },
+   {
+    "step": 4,
+    "config_id": "haiku|plain|60|256|high",
+    "hv": 0.05785605414666446
+   },
+   {
+    "step": 5,
+    "config_id": "haiku|extract|35|256|high",
+    "hv": 0.05785605414666446
+   },
+   {
+    "step": 6,
+    "config_id": "sonnet|extract|60|256|high",
+    "hv": 0.05785605414666446
+   },
+   {
+    "step": 7,
+    "config_id": "haiku|grounded|60|512|low",
+    "hv": 0.11915547943441662
+   },
+   {
+    "step": 8,
+    "config_id": "opus|plain|60|256|high",
+    "hv": 0.11915547943441662
+   },
+   {
+    "step": 9,
+    "config_id": "opus|extract|60|512|high",
+    "hv": 0.11915547943441662
+   },
+   {
+    "step": 10,
+    "config_id": "haiku|plain|35|256|high",
+    "hv": 0.11915547943441662
+   },
+   {
+    "step": 11,
+    "config_id": "haiku|extract|35|512|low",
+    "hv": 0.11915547943441662
+   },
+   {
+    "step": 12,
+    "config_id": "haiku|grounded|60|256|low",
+    "hv": 0.12293931045944606
+   },
+   {
+    "step": 13,
+    "config_id": "sonnet|extract|35|256|low",
+    "hv": 0.12293931045944606
+   },
+   {
+    "step": 14,
+    "config_id": "sonnet|extract|full|256|high",
+    "hv": 0.12293931045944606
+   },
+   {
+    "step": 15,
+    "config_id": "sonnet|extract|60|256|low",
+    "hv": 0.12293931045944606
+   },
+   {
+    "step": 16,
+    "config_id": "opus|grounded|60|256|low",
+    "hv": 0.12293931045944606
+   },
+   {
+    "step": 17,
+    "config_id": "sonnet|grounded|full|512|high",
+    "hv": 0.19255679494545452
+   },
+   {
+    "step": 18,
+    "config_id": "opus|extract|35|512|low",
+    "hv": 0.19255679494545455
+   },
+   {
+    "step": 19,
+    "config_id": "haiku|extract|full|512|high",
+    "hv": 0.19255679494545455
+   },
+   {
+    "step": 20,
+    "config_id": "haiku|grounded|full|256|high",
+    "hv": 0.19255679494545455
+   }
+  ],
+  "qehvi": [
+   {
+    "step": 1,
+    "config_id": "sonnet|grounded|full|256|high",
+    "hv": 0.0,
+    "how": "init",
+    "log_ehvi": null
+   },
+   {
+    "step": 2,
+    "config_id": "opus|extract|full|256|high",
+    "hv": 0.0,
+    "how": "init",
+    "log_ehvi": null
+   },
+   {
+    "step": 3,
+    "config_id": "sonnet|grounded|60|256|high",
+    "hv": 0.05785605414666446,
+    "how": "init",
+    "log_ehvi": null
+   },
+   {
+    "step": 4,
+    "config_id": "haiku|plain|60|256|high",
+    "hv": 0.05785605414666446,
+    "how": "init",
+    "log_ehvi": null
+   },
+   {
+    "step": 5,
+    "config_id": "haiku|extract|35|256|high",
+    "hv": 0.05785605414666446,
+    "how": "init",
+    "log_ehvi": null
+   },
+   {
+    "step": 6,
+    "config_id": "sonnet|extract|60|256|high",
+    "hv": 0.05785605414666446,
+    "how": "init",
+    "log_ehvi": null
+   },
+   {
+    "step": 7,
+    "config_id": "haiku|grounded|60|256|high",
+    "hv": 0.05785605414666446,
+    "how": "qEHVI",
+    "log_ehvi": -3.1703751642687856
+   },
+   {
+    "step": 8,
+    "config_id": "haiku|extract|full|256|high",
+    "hv": 0.05785605414666446,
+    "how": "qEHVI",
+    "log_ehvi": -3.4046455021514808
+   },
+   {
+    "step": 9,
+    "config_id": "haiku|plain|full|256|high",
+    "hv": 0.05785605414666446,
+    "how": "qEHVI",
+    "log_ehvi": -3.558013671005513
+   },
+   {
+    "step": 10,
+    "config_id": "haiku|grounded|full|256|high",
+    "hv": 0.05785605414666446,
+    "how": "qEHVI",
+    "log_ehvi": -3.6809874228742796
+   },
+   {
+    "step": 11,
+    "config_id": "haiku|plain|35|256|high",
+    "hv": 0.05785605414666446,
+    "how": "qEHVI",
+    "log_ehvi": -3.661264582238376
+   },
+   {
+    "step": 12,
+    "config_id": "haiku|grounded|35|256|high",
+    "hv": 0.05785605414666446,
+    "how": "qEHVI",
+    "log_ehvi": -3.77688218479234
+   },
+   {
+    "step": 13,
+    "config_id": "haiku|extract|60|256|high",
+    "hv": 0.05785605414666446,
+    "how": "qEHVI",
+    "log_ehvi": -3.9518463469963163
+   },
+   {
+    "step": 14,
+    "config_id": "sonnet|grounded|60|512|high",
+    "hv": 0.13032112498012544,
+    "how": "qEHVI",
+    "log_ehvi": -4.023066473929135
+   },
+   {
+    "step": 15,
+    "config_id": "haiku|plain|35|512|high",
+    "hv": 0.13032112498012544,
+    "how": "qEHVI",
+    "log_ehvi": -2.2717824802349744
+   },
+   {
+    "step": 16,
+    "config_id": "sonnet|grounded|35|512|low",
+    "hv": 0.14260489947589045,
+    "how": "qEHVI",
+    "log_ehvi": -3.0160537207014104
+   },
+   {
+    "step": 17,
+    "config_id": "haiku|plain|35|256|low",
+    "hv": 0.14260489947589045,
+    "how": "qEHVI",
+    "log_ehvi": -2.882644450027978
+   },
+   {
+    "step": 18,
+    "config_id": "haiku|grounded|full|512|low",
+    "hv": 0.23109612866899595,
+    "how": "qEHVI",
+    "log_ehvi": -3.1068969635555472
+   },
+   {
+    "step": 19,
+    "config_id": "haiku|grounded|35|512|low",
+    "hv": 0.2352538706111778,
+    "how": "qEHVI",
+    "log_ehvi": -4.001090154875939
+   },
+   {
+    "step": 20,
+    "config_id": "haiku|plain|full|512|low",
+    "hv": 0.29095969557188467,
+    "how": "qEHVI",
+    "log_ehvi": -4.412832035483577
+   }
+  ]
+ }
+}

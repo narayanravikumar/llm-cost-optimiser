@@ -1,0 +1,28 @@
+[project]
+name = "llm-cost-optimiser"
+version = "0.1.0"
+description = "Find the cost, quality and latency trade-offs in an LLM pipeline with Bayesian multi objective optimisation"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=0.40",
+    "botorch>=0.12",
+    "fastapi>=0.115",
+    "matplotlib>=3.8",
+    "uvicorn>=0.30",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/costopt"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
